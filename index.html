@@ -1,0 +1,66 @@
+<html>
+<head>
+   <title> </title>
+   <style>
+    body{
+        background-color: gray;
+    }
+    h1{
+        text-align: center;
+        font-style: italic;
+        font-size: 100px;
+    }
+    .btn,.video-btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+    button{
+        padding: 20px;
+    }
+
+    video {
+        width: 1000px;
+        height: 500px;
+        object-fit: cover;
+
+    }
+</style>
+</head>
+<body>
+   <h1>welcome to the page</h1>
+   <br/>
+   <div class="btn"><button id="startBtn" onclick="openCam()">
+    Open WebCam </button></div>
+   <br/><br/>
+   <div class="video-btn"><video id="videoCam"></video></div>
+   <script>
+      function openCam(){
+         let All_mediaDevices=navigator.mediaDevices
+         if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
+            console.log("getUserMedia() not supported.");
+            return;
+         }
+         All_mediaDevices.getUserMedia({
+            audio: true,
+            video: true
+         })
+         .then(function(vidStream) {
+            var video = document.getElementById('videoCam');
+            if ("srcObject" in video) {
+               video.srcObject = vidStream;
+            } else {
+               video.src = window.URL.createObjectURL(vidStream);
+            }
+            video.onloadedmetadata = function(e) {
+               video.play();
+            };
+         })
+         .catch(function(e) {
+            console.log(e.name + ": " + e.message);
+         });
+      }
+   </script>
+</body>
+</html>
